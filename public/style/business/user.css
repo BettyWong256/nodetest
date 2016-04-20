@@ -1,0 +1,8 @@
+.user-main{
+    background: #fff;
+    padding: 50px;
+    overflow: auto;
+}
+.user-main a:hover{
+    color: #00b3ee;
+}

@@ -1,0 +1,82 @@
+.draw-main{
+    overflow:auto;
+}
+
+.draw-cav{
+    width: 800px;
+    min-height: 500px;
+    overflow: auto;
+    background: #fff;
+    margin: 50px auto;
+    padding: 30px;
+}
+.cavMove{
+    display: inline-block;
+    margin-left:800px;
+    margin-right: 100px;
+}
+
+.draw-data{
+    width:600px;
+    /*min-height: 600px;*/
+    height: 100%;
+    background: #fff;
+    position: fixed;
+    left: 0;
+}
+.draw-data-body{
+    overflow: auto;
+    background: #fff;
+}
+
+#myTab{
+    margin-top: 8px;
+    border: none;
+}
+#myData{
+    width: 1200px;
+    height: 1200px;
+}
+#myData th{
+    background: #eee;
+}
+#myData td,th{
+    width:50px;
+    height:20px;
+}
+#myData .table>tbody>tr>td, #myData .table>tbody>tr>th,#myData .table>thead>tr>td,#myData .table>thead>tr>th{padding: 0;}
+#mySet tr{
+     line-height: 45px;
+}
+#mySet th{
+    width: auto;
+    border-right: 1px solid #ccc;
+    padding-right: 10px;
+}
+#mySet td{
+    padding-left: 10px;
+}
+
+#draw-test-edit{
+    position: absolute;
+    /*z-index: 999;*/
+    width:98px;
+    height:20px;
+    border:none;
+    resize: none;
+    background: #f7f7f7;
+}
+
+.dropdown-menu{
+    min-width: auto;
+    top:70px;
+    left:-15px;
+}
+
+.draw-edit-tab{
+    border-radius: 3px;
+    font-size:12px;
+    padding:5px;
+    background:#3c3c3c;
+    color:#fff;
+}

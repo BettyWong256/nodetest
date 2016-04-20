@@ -1,0 +1,61 @@
+
+#background-size{
+    /*color: #fff;*/
+    /*text-shadow:  0 0 10px #000;;*/
+    min-height: 500px;
+    background-image: linear-gradient(90deg, #E27546, #FBCC79, #86C799, #49A890) ;
+}
+
+.Top{
+    width:70px;
+    height:70px;
+    display: inline;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px;
+    border-radius: 45px;
+    background: #333;
+    color: #fff;
+    text-align: center;
+}
+
+.home-head li{
+    font-size: 16px;
+    float: left;
+    padding:0 15px;
+    line-height: 80px;
+}
+.home-head li:hover{
+    color:#fff;
+    background: #0bb59b;
+}
+
+
+.btn-diy{
+    width:250px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 24px;
+    font-weight: bold;
+    background: none;
+    color: #fff;
+    border: 3px solid #fff;
+    border-radius: 15px;
+    margin-left: -125px;
+}
+.btn-diy:hover{
+   box-shadow: 0 0 20px #49A890;
+   text-shadow: 0 0 20px #49A890;
+}
+
+.chat-text{
+    max-width: 350px;
+    border-radius: 5px;
+}
+
+.home-chat{
+    overflow: auto;
+}
+
+

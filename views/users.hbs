@@ -1,0 +1,60 @@
+<!--菜单栏-->
+<div class="home-head gr-margin h80 gr-blue" id="">
+    <img src="images/logo.png" alt="LOGO" class="mt10 mr100 fl">
+    <ul class="fl">
+        <li><a href="/home">首页</a></li>
+        <li><a href="/home#jump">聊天室</a></li>
+        <li><a href="/draw">绘制图表</a></li>
+    </ul>
+    <div class="fr w300 tr lh80 cl-white">
+        <a class="mr20" href="/users">个人中心</a>
+        <span class="mr10 w80">my_id</span>
+        <span class="mr10">|</span>
+        <a class="w80" href="/home">退  出 <span class="glyphicon glyphicon-log-out ml5"></span></a>
+    </div>
+
+</div>
+<div class="user-main">
+    <ul>
+        <li class="fl p1p2 mb50 mr50">
+            <img src="images/lines.png" alt="" class="w100 h100 fl mr10">
+            <div class="fl h100">
+                <!--<p class="f16 fb"><a href="" class="cl-black">标题</a></p>-->
+                <p class="f16 fb">标题</p>
+                <p>2016.04.20</p>
+                <p class="mt20">
+                    <button type="button" class="btn btn-success btn-sm mr10 w50">查  看</button>
+                    <button type="button" class="btn btn-danger btn-sm w50" data-toggle="modal" data-target="#myDelete">删  除</button>
+                </p>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="modal fade" id="myDelete" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <p class="modal-title" id="myModalLabel">
+                    提示
+                </p>
+            </div>
+            <div class="modal-body f16">
+                是否确认删除？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+<script src="js/business/user.js"></script>
+<link rel="stylesheet" href="style/business/user.css">
