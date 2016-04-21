@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var route = require('./routes/index'); //开始
+var users = require('./routes/users');
 
 
 var app = express();
@@ -27,7 +28,8 @@ app.use('/home', route);
 app.use('/login', route);
 app.use('/signIn', route);
 app.use('/draw', route);
-app.use('/users', route);
+app.use('/personal', route);
+app.use('/users',users);
 
 
 // catch 404 and forward to error handler
