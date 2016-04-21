@@ -18,7 +18,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">
-                        <button type="submit" class="btn btn-primary mr30" id="login">登录</button>
+                        <button type="button" class="btn btn-primary mr30" id="login">登录</button>
                         <a href="/signIn" class="btn btn-default">注册</a>
                     </div>
                 </div>
@@ -83,12 +83,13 @@
                     success: function(data,status){
                         if(status == 'success'){
                             location.href = 'loginHome';
+                        }else{
+                            location.href = 'login';
                         }
                     },
                     error: function(data,status){
-                        if(status == 'error'){
-                            location.href = 'login';
-                        }
+                        location.href = 'login';
+
                     }
                 });
             }

@@ -33,19 +33,18 @@ router.route('/login').get(function(req,res){
   User.findOne({name:uname},function(err,doc){
     if(err){
       res.send(500);
-      console.log(err);
+      console.log(err+'****');
     }else if (!doc){
       req.session.error = '用户名不存在';
-      res.send(404);
-      //res.redirect('/login');
+      res.send(500);
     }else{
       if(req.body.upwd != doc.password){
           req.session.error = '密码错误';
-          //res.redirect('/login');
+          res.send(500);
+
       }else{
         req.session.user = doc;
         res.send(200);
-        //res.redirect('/loginHome');
       }
     }
   });
@@ -63,8 +62,8 @@ router.route("/signIn").get(function(req,res){    // 到达此路径则渲染reg
   var upwd = req.body.upwd;
   User.findOne({name: uname},function(err,doc){   // 同理 /login 路径的处理方式
     if(err){
-      res.send(500);
       req.session.error =  '网络异常错误！';
+      res.send(500);
       console.log(err+'***111');
     }else if(doc){
       req.session.error = '用户名已存在！';
