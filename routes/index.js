@@ -10,9 +10,6 @@ router.get('/home', function(req, res, next) {
   res.render('home', { title: '格拉夫BI数据可视化' });
 });
 
-//router.get('/loginHome', function(req, res, next) {
-//  res.render('loginHome', { title: '格拉夫BI数据可视化' });
-//});
 
 /* GET loginHome page. */
 router.get("/loginHome",function(req,res){
@@ -40,24 +37,23 @@ router.route('/login').get(function(req,res){
     }else if (!doc){
       req.session.error = '用户名不存在';
       res.send(404);
+      //res.redirect('/login');
     }else{
       if(req.body.upwd != doc.password){
           req.session.error = '密码错误';
-          res.redirect('/login');
+          //res.redirect('/login');
       }else{
         req.session.user = doc;
         res.send(200);
-        res.redirect('/loginHome');
+        //res.redirect('/loginHome');
       }
     }
   });
 });
 
-//router.get('/signIn', function(req, res, next) {
-//  res.render('sign', { title: '注册' });
-//});
 
-/* GET register page. */
+
+/* GET signIn page. */
 router.route("/signIn").get(function(req,res){    // 到达此路径则渲染register文件，并传出title值供 register.html使用
   res.render("sign",{title:'注册'});
 }).post(function(req,res){
@@ -69,20 +65,20 @@ router.route("/signIn").get(function(req,res){    // 到达此路径则渲染reg
     if(err){
       res.send(500);
       req.session.error =  '网络异常错误！';
-      console.log(err);
+      console.log(err+'***111');
     }else if(doc){
       req.session.error = '用户名已存在！';
       res.send(500);
+      console.log(err+'***1222');
     }else{
-      User.create({              // 创建一组user对象置入model
+      User.create({                             // 创建一组user对象置入model
         name: uname,
         password: upwd
       },function(err,doc){
         if (err) {
-          res.send(500);
-          console.log(err);
+          console.log(err+'***333');
         } else {
-          req.session.error = '用户名创建成功！';
+          req.session.error = '用户名创建成功！请登录';
           res.send(200);
         }
       });

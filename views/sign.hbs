@@ -1,9 +1,10 @@
 <div class="gr-blue bg" style="min-height: 600px;">
-    <div class="container w400 h300 gr-gray vm p20">
+
+    <div class="container w400 gr-gray vm p20" style="min-height: 300px;overflow: auto;">
+        {{{message}}}
         <form class="form-horizontal" role="form" method="post">
             <fieldset>
                 <legend>用户注册</legend>
-                {{message}}
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="username">用户名</label>
                     <div class="col-sm-9">
@@ -86,18 +87,20 @@
                     $("#password1").css("border","1px solid red");
                     return false;
                 }else if(password === password1){
-                    var data = {"uname":username,"upwd":password};
+                    var data = {uname:username,upwd:password};
                     $.ajax({
-                        url: '/sign',
+                        url: '/signIn',
                         type: 'post',
                         data: data,
                         success: function(data,status){
                             if(status == 'success'){
                                 location.href = 'login';
+                            }else{
+                                location.href = 'login';
                             }
                         },
                         error: function(data,err){
-                            location.href = 'sign';
+                            location.href = 'signIn';
                         }
                     });
                 }
