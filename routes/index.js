@@ -94,10 +94,18 @@ router.get("/logout",function(req,res){    // 到达 /logout 路径则登出， 
 });
 
 router.get('/draw', function(req, res, next) {
+  if(!req.session.user){                     //到达/home路径首先判断是否已经登录
+    req.session.error = "请先登录"
+    res.redirect("/login");                //未登录则重定向到 /login 路径
+  }
   res.render('draw', { title: '格拉夫绘制图表'});
 });
 
 router.get('/personal', function(req, res, next) {
+  if(!req.session.user){                     //到达/home路径首先判断是否已经登录
+    req.session.error = "请先登录"
+    res.redirect("/login");                //未登录则重定向到 /login 路径
+  }
   res.render('personal', { title: '格拉夫-个人中心' });
 });
 
