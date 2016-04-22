@@ -11,7 +11,7 @@ define( function ( require, exports ) {
 
 
     var elem = {};
-    var graphID = Math.ceil(Math.random() * 10); //图表id随机数
+    var graphID = 1; //图表id随机数
     var cavObj = $('.draw-cav');//画布
     var editObj = {};
     var editId = null;
@@ -43,7 +43,7 @@ define( function ( require, exports ) {
 
 //添加图表画布
     function addGraph() {
-        cavObj.append('<div class="editable mb20"><span class="draw-edit-tab none"><a href="javascript:;" class="mr5 draw-edit-data">编辑数据</a><a href="javascript:;" class="mr5 draw-edit-set">参数设置</a><a href="javascript:;" class="mr5 draw-edit-delete">删除</a></span><div style="width:740px;height: 300px;" class="new-graph" id="graph' + graphID + '"></div></div>');
+        cavObj.append('<div class="editable mb20" data-id="graph'+ graphID +'" data-state="graph"><span class="draw-edit-tab none"><a href="javascript:;" class="mr5 draw-edit-data">编辑数据</a><a href="javascript:;" class="mr5 draw-edit-set">参数设置</a><a href="javascript:;" class="mr5 draw-edit-delete">删除</a></span><div style="width:740px;height: 300px;" class="new-graph" id="graph' + graphID + '"></div></div>');
         editId = $('.new-graph').eq($('.new-graph').size() - 1).attr('id');
         graphID++;
     };
@@ -77,6 +77,25 @@ define( function ( require, exports ) {
         });
     }
 
+//保存-获取页面元素
+    function getDivArr(){
+        var arr = [];
+        $('.draw-cav').find('.editable').each(
+            function(){
+                var id = $(this).attr('data-id');
+                var state = $(this).attr('data-state');
+                var divObj={};
+                divObj.id = id;
+                if(state == 'h3'){divObj.text = $(this).find('h3').text();}
+                else if(state == 'p'){divObj.text = $(this).find('p').text();}
+                else{
+                    divObj.text = null;
+                }
+                arr.push(divObj);
+            }
+        );
+        return arr;
+    }
 
 
 //获取页面元素
@@ -105,8 +124,33 @@ define( function ( require, exports ) {
     };
 //绑定事件
     function bindEvent() {
+        //保存
         elem.save.click(function(){
-            console.log(dataPool);
+            $('#myInfo').modal();
+            $('#myInfoTrue').click(function(){
+                var user = $('.draw-user-name').text();
+                var name = $('#file_name').val();
+                var oDate = new Date();
+                var time = oDate.getFullYear() +'-'+ (oDate.getMonth()+1) +'-'+ oDate.getDate() +'&nbsp;'+ oDate.getHours() +':'+ oDate.getMinutes() +':'+ oDate.getSeconds();
+                var arr = getDivArr();
+                var data={"user":user,"name":name,"time":time,"data":dataPool,"div":arr};
+                console.log(data);
+                //    url:'/draw',
+                //    type:'post',
+                //    data: data,
+                //    success: function(data,status){
+                //        if(status == 'success'){
+                //            location.href = 'loginHome';
+                //        }else{
+                //            location.href = 'login';
+                //        }
+                //    },
+                //    error: function(data,status){
+                //        location.href = 'login';
+                //
+                //    }
+                //});
+            });
         })
 
         //运行
@@ -128,11 +172,19 @@ define( function ( require, exports ) {
         });
         //添加标题
         elem.addH.bind('click', function () {
-            cavObj.append('<div class="editable mb20"><span class="draw-edit-tab none"><a href="javascript:;" class="mr5 draw-edit"  data-toggle="modal" data-target="#myModal">编辑</a><a href="javascript:;" class="mr5 draw-edit-delete">删除</a></span><h3 class="new-word">请输入标题</h3></div>');
+            var h = '<div class="editable mb20" data-id="graph'+graphID +'" data-state="h3"><span class="draw-edit-tab none"><a href="javascript:;" class="mr5 draw-edit"  data-toggle="modal" data-target="#myModal">编辑</a><a href="javascript:;" class="mr5 draw-edit-delete">删除</a></span><h3 class="new-word" id="graph';
+            h += graphID;
+            h += '">请输入标题</h3></div>';
+            cavObj.append(h);
+            graphID++;
         });
         //添加段落
         elem.addP.bind('click', function () {
-            cavObj.append('<div class="editable mb20"><span class="draw-edit-tab none"><a href="javascript:;" class="mr5 draw-edit" data-toggle="modal" data-target="#myModal">编辑</a><a href="javascript:;" class="mr5 draw-edit-delete">删除</a></span><p class="new-word">请输入文本</p></div>');
+            var h = '<div class="editable mb20"  data-id="graph'+graphID +'" data-state="p"><span class="draw-edit-tab none"><a href="javascript:;" class="mr5 draw-edit"  data-toggle="modal" data-target="#myModal">编辑</a><a href="javascript:;" class="mr5 draw-edit-delete">删除</a></span><p class="new-word" id="graph';
+            h += graphID;
+            h += '">请输入文本</p></div>';
+            cavObj.append(h);
+            graphID++;
         });
         //保存文案
         elem.saveWord.bind('click', function () {
@@ -142,7 +194,6 @@ define( function ( require, exports ) {
         });
         //添加图表
         elem.line.click(function () {
-
             $('.draw-data').hide();
             $('.draw-cav').removeClass('cavMove');
             addGraph();
@@ -209,12 +260,14 @@ define( function ( require, exports ) {
         tableSave();
         fixedTop();
     };
+//当绘图页面滚动时
     $('.draw-data-body').scroll(function () {
         tableSave();
     });
 
-
+//生成元素触发事件
     function newT() {
+        //操作条显示
         $(document).on("mousemove", ".editable", function () {
             $(this).css('background', 'rgba(36,36,36,0.2)');
             $(this).find('.draw-edit-tab').show();
@@ -224,7 +277,7 @@ define( function ( require, exports ) {
             $(this).parent().find('.draw-edit-tab').hide();
         });
 
-//编辑数据
+        //编辑数据
         $(document).on("click", '.draw-edit-data', function () {
             editHeight();
             setEdit();
@@ -237,7 +290,7 @@ define( function ( require, exports ) {
             $('#myData').addClass('active').addClass('in');
             MyGraph.getJson(editId);
         });
-//参数设置
+        //参数设置
         $(document).on("click", '.draw-edit-set', function () {
             editHeight();
             setEdit();
@@ -253,7 +306,7 @@ define( function ( require, exports ) {
             MyGraph.getJson(editId);
 
         });
-//删除
+        //删除
         $(document).on("click", ".draw-edit-delete", function () {
             editId = $(this).parents('.editable').find('.new-graph').attr('id');
             for(var i=0;i< dataPool.length;i++){
@@ -265,7 +318,7 @@ define( function ( require, exports ) {
             $('.draw-data').hide();
             $('.draw-cav').removeClass('cavMove');
         });
-//编辑
+        //编辑文本
         $(document).on("click", ".draw-edit", function () {
             editObj = $(this).parents('.editable').find('.new-word');
             $('.new-text').val(editObj.text());

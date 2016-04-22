@@ -21,7 +21,7 @@
     </ul>
     <div class="fr w300 tr lh80 cl-white">
         <a class="mr20" href="/personal">个人中心</a>
-        <span class="mr10 w80">{{user.name}}</span>
+        <span class="mr10 w80 draw-user-name">{{user.name}}</span>
         <span class="mr10">|</span>
         <a class="w80" href="/logout">退  出 <span class="glyphicon glyphicon-log-out ml5"></span></a>
     </div>
@@ -209,6 +209,29 @@
         </div>
     </div>
 </div>
+<!-- 模态框（保存提示） -->
+<div class="modal fade" id="myInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <p class="modal-title lh30">提示</p>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="file_name">文件名称</label>
+                    <input type="text" name="file_name" class="form-control" id="file_name" placeholder="请输入名称">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal" id="myInfoTrue">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
     seajs.use('/js/business/draw.js');
