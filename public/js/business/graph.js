@@ -551,23 +551,24 @@ define( function ( require, exports ) {
             }
         };
         $('input[type="radio"]').removeAttr('checked');
-        $('#'+editParam.data.theme+'-theme').attr('checked','checked');
+        $('input[id='+editParam.data.theme+'-theme]').prop('checked','checked');
+
         $('#title').val(editParam.data.text);
         $('#title-size').val(editParam.data.size);
         $('#title-color').val(editParam.data.color);
         $('#subtitle').val(editParam.data.subtext);
-        if(editParam.data.toolShow){$('#show-tool').attr('checked','checked');}
-        else{$('#no-tool').attr('checked','checked');}
-        if(editParam.data.legendShow){$('#show-legend').attr('checked','checked');}
-        else{$('#no-legend').attr('checked','checked');}
-        $('#'+ editParam.data.legendOrient +'-orient').attr('checked','checked');
-        $('#'+ editParam.data.legendX +'-legend').attr('checked','checked');
-        $('#'+ editParam.data.legendY +'-legend').attr('checked','checked');
+        if(editParam.data.toolShow){$('#show-tool').prop('checked','checked');}
+        else{$('#no-tool').prop('checked','checked');}
+        if(editParam.data.legendShow){$('#show-legend').prop('checked','checked');}
+        else{$('#no-legend').prop('checked','checked');}
+        $('#'+ editParam.data.legendOrient +'-orient').prop('checked','checked');
+        $('#'+ editParam.data.legendX +'-legend').prop('checked','checked');
+        $('#'+ editParam.data.legendY +'-legend').prop('checked','checked');
         if( editParam.data.minY != 'normal'){$('#min-y').val(editParam.data.minY );}
         if( editParam.data.minX != 'normal'){$('#min-x').val(editParam.data.minX );}
         $('#rotate-x').val(editParam.data.rotateX);
-        if(editParam.data.smooth){$('#true-smooth').attr('checked','checked');}
-        else{$('#false-smooth').attr('checked','checked');}
+        if(editParam.data.smooth){$('#true-smooth').prop('checked','checked');}
+        else{$('#false-smooth').prop('checked','checked');}
 
 
         //x轴
