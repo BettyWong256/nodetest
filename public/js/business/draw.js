@@ -1,13 +1,10 @@
 /**
  * Created by wangkun12 on 2016/4/15.
  */
-define( function ( require, exports ) {
+define(function (require, exports) {
 
     var echarts = require('/js/plugins/echarts/echarts-all.js');
     var MyGraph = require('/js/business/graph.js');
-
-
-
 
 
     var elem = {};
@@ -43,7 +40,7 @@ define( function ( require, exports ) {
 
 //添加图表画布
     function addGraph() {
-        cavObj.append('<div class="editable mb20" data-id="graph'+ graphID +'" data-state="graph"><span class="draw-edit-tab none"><a href="javascript:;" class="mr5 draw-edit-data">编辑数据</a><a href="javascript:;" class="mr5 draw-edit-set">参数设置</a><a href="javascript:;" class="mr5 draw-edit-delete">删除</a></span><div style="width:740px;height: 300px;" class="new-graph" id="graph' + graphID + '"></div></div>');
+        cavObj.append('<div class="editable mb20" data-id="graph' + graphID + '" data-state="graph"><span class="draw-edit-tab none"><a href="javascript:;" class="mr5 draw-edit-data">编辑数据</a><a href="javascript:;" class="mr5 draw-edit-set">参数设置</a><a href="javascript:;" class="mr5 draw-edit-delete">删除</a></span><div style="width:740px;height: 300px;" class="new-graph" id="graph' + graphID + '"></div></div>');
         editId = $('.new-graph').eq($('.new-graph').size() - 1).attr('id');
         graphID++;
     };
@@ -55,13 +52,13 @@ define( function ( require, exports ) {
 
         if (fixTop <= 0) {
             fixTop = 0;
-            $('.draw-data').height($('.draw-main').height() - scrollH +80);
-            $('.draw-data-body').height($('.draw-main').height() - scrollH +30);
+            $('.draw-data').height($('.draw-main').height() - scrollH + 80);
+            $('.draw-data-body').height($('.draw-main').height() - scrollH + 30);
         }
         $('.draw-data').css('top', fixTop);
     };
 //编辑框高度
-    function editHeight(){
+    function editHeight() {
         var heights = document.body.scrollHeight;
         $('.draw-data').height(heights - 180 + 'px');
         $('.draw-data-body').height(heights - 230 + 'px');
@@ -78,17 +75,22 @@ define( function ( require, exports ) {
     }
 
 //保存-获取页面元素
-    function getDivArr(){
+    function getDivArr() {
         var arr = [];
         $('.draw-cav').find('.editable').each(
-            function(){
+            function () {
                 var id = $(this).attr('data-id');
                 var state = $(this).attr('data-state');
-                var divObj={};
+                var divObj = {};
                 divObj.id = id;
-                if(state == 'h3'){divObj.text = $(this).find('h3').text();}
-                else if(state == 'p'){divObj.text = $(this).find('p').text();}
-                else{
+                divObj.state = state;
+                if (state == 'h3') {
+                    divObj.text = $(this).find('h3').text();
+                }
+                else if (state == 'p') {
+                    divObj.text = $(this).find('p').text();
+                }
+                else {
                     divObj.text = null;
                 }
                 arr.push(divObj);
@@ -96,6 +98,46 @@ define( function ( require, exports ) {
         );
         return arr;
     }
+
+//保存-提交数据
+    function postData() {
+        var id = $('.fileId').val();
+        var user = $('.draw-user-name').text();
+        var name = $('#file_name').val();
+        var oDate = new Date();
+        var arr = getDivArr();
+        var data = {
+            "fileId": id,
+            "userName": user,
+            "fileName": name,
+            "fileTime": oDate,
+            "graphData": dataPool,
+            "divData": arr
+        };
+        if (name == '') {
+            $('.nameErr').show();
+            return false;
+        }
+        $.ajax({
+            url: '/draw',
+            type: 'post',
+            data: data,
+            success: function (data, status) {
+                if (status == 'success') {
+                    $('#mySaveInfo').find('.modal-body').html('保存成功');
+                    $('#mySaveInfo').modal();
+                    $('.fileId').val(data.id);
+                } else {
+                    $('#mySaveInfo').find('.modal-body').html('保存失败，请重试……');
+                    $('#mySaveInfo').modal();
+                }
+            },
+            error: function (data, status) {
+                $('#mySaveInfo').find('.modal-body').html('系统错误，请重试……');
+                $('#mySaveInfo').modal();
+            }
+        });
+    };
 
 
 //获取页面元素
@@ -124,33 +166,16 @@ define( function ( require, exports ) {
     };
 //绑定事件
     function bindEvent() {
+        $('#myInfoTrue').on("click", postData);
         //保存
-        elem.save.click(function(){
-            $('#myInfo').modal();
-            $('#myInfoTrue').click(function(){
-                var user = $('.draw-user-name').text();
-                var name = $('#file_name').val();
-                var oDate = new Date();
-                var time = oDate.getFullYear() +'-'+ (oDate.getMonth()+1) +'-'+ oDate.getDate() +'&nbsp;'+ oDate.getHours() +':'+ oDate.getMinutes() +':'+ oDate.getSeconds();
-                var arr = getDivArr();
-                var data={"user":user,"name":name,"time":time,"data":dataPool,"div":arr};
-                console.log(data);
-                //    url:'/draw',
-                //    type:'post',
-                //    data: data,
-                //    success: function(data,status){
-                //        if(status == 'success'){
-                //            location.href = 'loginHome';
-                //        }else{
-                //            location.href = 'login';
-                //        }
-                //    },
-                //    error: function(data,status){
-                //        location.href = 'login';
-                //
-                //    }
-                //});
-            });
+        elem.save.click(function () {
+            $('.nameErr').hide();
+            if ($('.fileId').val() == '') {
+                $('#file_name').val('');
+                $('#myInfo').modal();
+            }else{
+                postData();
+            }
         })
 
         //运行
@@ -172,7 +197,7 @@ define( function ( require, exports ) {
         });
         //添加标题
         elem.addH.bind('click', function () {
-            var h = '<div class="editable mb20" data-id="graph'+graphID +'" data-state="h3"><span class="draw-edit-tab none"><a href="javascript:;" class="mr5 draw-edit"  data-toggle="modal" data-target="#myModal">编辑</a><a href="javascript:;" class="mr5 draw-edit-delete">删除</a></span><h3 class="new-word" id="graph';
+            var h = '<div class="editable mb20" data-id="graph' + graphID + '" data-state="h3"><span class="draw-edit-tab none"><a href="javascript:;" class="mr5 draw-edit"  data-toggle="modal" data-target="#myModal">编辑</a><a href="javascript:;" class="mr5 draw-edit-delete">删除</a></span><h3 class="new-word" id="graph';
             h += graphID;
             h += '">请输入标题</h3></div>';
             cavObj.append(h);
@@ -180,7 +205,7 @@ define( function ( require, exports ) {
         });
         //添加段落
         elem.addP.bind('click', function () {
-            var h = '<div class="editable mb20"  data-id="graph'+graphID +'" data-state="p"><span class="draw-edit-tab none"><a href="javascript:;" class="mr5 draw-edit"  data-toggle="modal" data-target="#myModal">编辑</a><a href="javascript:;" class="mr5 draw-edit-delete">删除</a></span><p class="new-word" id="graph';
+            var h = '<div class="editable mb20"  data-id="graph' + graphID + '" data-state="p"><span class="draw-edit-tab none"><a href="javascript:;" class="mr5 draw-edit"  data-toggle="modal" data-target="#myModal">编辑</a><a href="javascript:;" class="mr5 draw-edit-delete">删除</a></span><p class="new-word" id="graph';
             h += graphID;
             h += '">请输入文本</p></div>';
             cavObj.append(h);
@@ -197,35 +222,35 @@ define( function ( require, exports ) {
             $('.draw-data').hide();
             $('.draw-cav').removeClass('cavMove');
             addGraph();
-            MyGraph.init('1',editId);
+            MyGraph.init('1', editId);
         });
         elem.lines.click(function () {
 
             $('.draw-data').hide();
             $('.draw-cav').removeClass('cavMove');
             addGraph();
-            MyGraph.init('2',editId);
+            MyGraph.init('2', editId);
         });
         elem.bar.click(function () {
 
             $('.draw-data').hide();
             $('.draw-cav').removeClass('cavMove');
             addGraph();
-            MyGraph.init('3',editId);
+            MyGraph.init('3', editId);
         });
         elem.pie.click(function () {
 
             $('.draw-data').hide();
             $('.draw-cav').removeClass('cavMove');
             addGraph();
-            MyGraph.init('4',editId);
+            MyGraph.init('4', editId);
         });
         elem.graph.click(function () {
 
             $('.draw-data').hide();
             $('.draw-cav').removeClass('cavMove');
             addGraph();
-            MyGraph.init('5',editId);
+            MyGraph.init('5', editId);
         })
 
 
@@ -309,11 +334,12 @@ define( function ( require, exports ) {
         //删除
         $(document).on("click", ".draw-edit-delete", function () {
             editId = $(this).parents('.editable').find('.new-graph').attr('id');
-            for(var i=0;i< dataPool.length;i++){
-                if(dataPool[i].id == editId){
-                    dataPool.splice(i,1);
+            for (var i = 0; i < dataPool.length; i++) {
+                if (dataPool[i].id == editId) {
+                    dataPool.splice(i, 1);
                 }
-            };
+            }
+            ;
             $(this).parents('.editable').remove();
             $('.draw-data').hide();
             $('.draw-cav').removeClass('cavMove');

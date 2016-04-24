@@ -29,6 +29,10 @@ app.use(function(req,res,next){
   }
   next();  //中间件传递
 });
+app.use(function(req,res,next){
+  res.locals.file = req.session.file;   // 从session 获取 file对象
+  next();  //中间件传递
+});
 
 
 global.dbHandel = require('./database/dbHandel');

@@ -6,18 +6,18 @@
             <a href="javascrip:;" class="dropdown-toggle" data-toggle="dropdown">新增</a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                 <li role="presentation" class="add-h">
-                    <a role="menuitem " tabindex="-1" href="javascrip:;">标题</a>
+                    <a role="menuitem " tabindex="-1" href="javascript:void(0);">标题</a>
                 </li>
                 <li role="presentation" class="add-p">
-                    <a role="menuitem" tabindex="-1" href="javascrip:;">字段</a>
+                    <a role="menuitem" tabindex="-1" href="javascript:void(0);">字段</a>
                 </li>
                 <li role="presentation" class="add-c">
-                    <a role="menuitem" tabindex="-1" href="javascrip:;" data-toggle="modal" data-target="#myGraph">图表</a>
+                    <a role="menuitem" tabindex="-1" href="javascript:void(0);" data-toggle="modal" data-target="#myGraph">图表</a>
                 </li>
             </ul>
         </div></li>
         <!--<li><a href="javascrip:;" class="draw-look">预览</a></li>-->
-        <li><a href="javascrip:;" class="draw-save">保存</a></li>
+        <li><a href="javascript:void(0);" class="draw-save">保存</a></li>
     </ul>
     <div class="fr w300 tr lh80 cl-white">
         <a class="mr20" href="/personal">个人中心</a>
@@ -26,6 +26,12 @@
         <a class="w80" href="/logout">退  出 <span class="glyphicon glyphicon-log-out ml5"></span></a>
     </div>
 </div>
+
+
+<!--隐藏数据模块-->
+<input type="hidden" value="" class="fileId">
+
+
 
 <!--绘图区域-->
 <div class="draw-main bg-gray pr">
@@ -170,7 +176,7 @@
     </div>
 </div>
 
-<!-- 模态框（文本） -->
+<!-- 模态框（文本编辑） -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -209,7 +215,7 @@
         </div>
     </div>
 </div>
-<!-- 模态框（保存提示） -->
+<!-- 模态框（保存名称） -->
 <div class="modal fade" id="myInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -218,6 +224,7 @@
                 <p class="modal-title lh30">提示</p>
             </div>
             <div class="modal-body">
+                <div class="alert alert-danger none nameErr" style="margin-bottom:20px;color:red;">请输入名称</div>
                 <div class="form-group">
                     <label for="file_name">文件名称</label>
                     <input type="text" name="file_name" class="form-control" id="file_name" placeholder="请输入名称">
@@ -228,6 +235,18 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 
             </div>
+        </div>
+    </div>
+</div>
+<!-- 模态框（保存提示） -->
+<div class="modal fade" id="mySaveInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <p class="modal-title lh30">提示</p>
+            </div>
+            <div class="modal-body"></div>
         </div>
     </div>
 </div>
