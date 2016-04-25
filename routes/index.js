@@ -91,6 +91,7 @@ router.get("/logout", function (req, res) {    // 到达 /logout 路径则登出
     res.redirect("/home");
 });
 
+/* GET draw page. */
 router.route("/draw").get(function (req, res) {
     if (!req.session.user) {                     //到达/home路径首先判断是否已经登录
         req.session.error = "请先登录"
@@ -120,7 +121,7 @@ router.route("/draw").get(function (req, res) {
                 } else {
                     console.log('**2**');
                     // res.send(200);
-                    res.json({id: doc["_id"]})
+                    res.json({id: doc["_id"]});
                 }
             })
         } else {
@@ -145,12 +146,31 @@ router.route("/draw").get(function (req, res) {
 
 });
 
+/* GET personal page. */
 router.get('/personal', function (req, res, next) {
     if (!req.session.user) {                     //到达/home路径首先判断是否已经登录
         req.session.error = "请先登录"
         res.redirect("/login");                //未登录则重定向到 /login 路径
     }
-    res.render('personal', {title: '格拉夫-个人中心'});
+    var File = global.dbHandel.getModel('file');
+    var personalMeg='';
+    var status = 0;
+    var personalArr=[];
+    File.find({user_name: req.session.user.name}, function (err, docs) {
+        if(err){
+            status=1;
+            personalMeg = '还没有作品哦~快去绘制你的图表吧！';
+        }else{
+            if (docs.length == 0) {
+                status=1;
+                personalMeg = '还没有作品哦~快去绘制你的图表吧！';
+            }else{
+                personalArr = docs;
+            }
+        }
+        res.render('personal', {title: '格拉夫-个人中心',msg: personalMeg, status: status,doc: personalArr });
+    });
+
 });
 
 
