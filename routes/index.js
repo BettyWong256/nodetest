@@ -11,6 +11,15 @@ router.get('/home', function (req, res, next) {
 });
 
 
+/* GET logout page. */
+router.get("/logout", function (req, res) {    // 到达 /logout 路径则登出， session中user,error对象置空，并重定向到根路径
+    req.session.user = null;
+    req.session.error = null;
+    res.redirect("/home");
+});
+
+
+
 /* GET loginHome page. */
 router.get("/loginHome", function (req, res) {
     if (!req.session.user) {                     //到达/home路径首先判断是否已经登录
@@ -24,9 +33,9 @@ router.get("/loginHome", function (req, res) {
 /* GET login page. */
 router.route('/login').get(function (req, res) {
     res.render('login', {title: '登录'});
-}).post(function (req, res) {
-//  get user info
-//  user是从model中获取user对象，通过global.dbHandel全局方法
+    }).post(function (req, res) {
+    //  get user info
+    //  user是从model中获取user对象，通过global.dbHandel全局方法
     var User = global.dbHandel.getModel('user');
     var uname = req.body.uname; //获取post上来data数据中的uname的值
     User.findOne({name: uname}, function (err, doc) {
@@ -84,12 +93,6 @@ router.route("/signIn").get(function (req, res) {    // 到达此路径则渲染
 });
 
 
-/* GET logout page. */
-router.get("/logout", function (req, res) {    // 到达 /logout 路径则登出， session中user,error对象置空，并重定向到根路径
-    req.session.user = null;
-    req.session.error = null;
-    res.redirect("/home");
-});
 
 /* GET draw page. */
 router.route("/draw").get(function (req, res) {
@@ -172,6 +175,61 @@ router.get('/personal', function (req, res, next) {
     });
 
 });
+
+/* GET show page. */
+router.get('/show', function (req, res, next) {
+    if (!req.session.user) {                     //到达/home路径首先判断是否已经登录
+        req.session.error = "请先登录"
+        res.redirect("/login");                //未登录则重定向到 /login 路径
+    }
+    res.redirect("/personal");
+}).post(function (req, res) {
+    var File = global.dbHandel.getModel('file');
+    var fileId = req.body.fileId;
+    File.findOne({_id: fileId}, function (err, doc) {
+        if (doc) {
+            File.update({                             // 创建一组file对象置入model
+                user_name: userName,
+                file_name: fileName,
+                file_time: fileTime,
+                graph_data: graphData,
+                div_data: divData
+            }, function (err,obj) {
+                if (err) {
+                    console.log(err + '**1**');
+                    res.send(500);
+                } else {
+                    console.log('**2**');
+                    // res.send(200);
+                    res.json({id: doc["_id"]});
+                }
+            })
+        } else {
+            File.create({                             // 创建一组file对象置入model
+                user_name: userName,
+                file_name: fileName,
+                file_time: fileTime,
+                graph_data: graphData,
+                div_data: divData
+            }, function (err, doc) {
+                if (err) {
+                    console.log(err + '**3**');
+                    res.send(500);
+                } else {
+                    console.log('**4**');
+                    // res.send(200);
+                    res.json({id: doc["_id"]})
+                }
+            });
+        }
+    })
+
+});
+
+
+
+
+
 
 
 module.exports = router;

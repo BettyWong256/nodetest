@@ -6,16 +6,31 @@ function userMainH(){
 };
 
 function getElem(){
-    
+    elem.look = $('.look');
+    elem.delete = $('.delete');
 };
 
 function bindEvent(){
+    elem.look.click(function(){
+        var clicked = $(this);
+        var fileId = clicked.parents('li').find('.fileId').val();
+        alert(fileId);
+    });
+    elem.delete.click(function(){
+        var clicked = $(this);
+        var fileId = clicked.parents('li').find('.fileId').val();
+        $('.delId').val(fileId);
+    });
 
 };
 
 function pageLoad(){
 };
 
+
+$('.delOk').onclick = function(){
+    alert($('.delId').val());
+};
 
 
 

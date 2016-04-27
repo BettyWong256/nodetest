@@ -21,13 +21,14 @@
         <ul>
             {{#each doc}}
             <li class="fl p1p2 mb50 mr50">
+                <input type="hidden" name="fileId" class="fileId" value="{{_id}}">
                 <img src="images/lines.png" alt="" class="w100 h100 fl mr10">
                 <div class="fl h100">
                     <p class="f16 fb"><a href="" class="cl-black">{{file_name}}</a></p>
-                    <p>2016.04.20</p>
+                    <p>{{file_time}}</p>
                     <p class="mt20">
-                        <button type="button" class="btn btn-success btn-sm mr10 w50">查  看</button>
-                        <button type="button" class="btn btn-danger btn-sm w50" data-toggle="modal" data-target="#myDelete">删  除</button>
+                        <button type="button" class="btn btn-success btn-sm mr10 w50 look">查  看</button>
+                        <button type="button" class="btn btn-danger btn-sm w50 delete" data-toggle="modal" data-target="#myDelete">删  除</button>
                     </p>
                 </div>
             </li>
@@ -36,6 +37,7 @@
     {{/if}}
 
 </div>
+<input type="hidden" class="delId">
 <div class="modal fade" id="myDelete" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -53,7 +55,7 @@
                 是否确认删除？
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info" data-dismiss="modal">确定</button>
+                <button type="button" class="btn btn-info delOk" data-dismiss="modal">确定</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div><!-- /.modal-content -->

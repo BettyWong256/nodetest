@@ -62,6 +62,7 @@ app.use('/login', route);
 app.use('/signIn', route);
 app.use('/draw', route);
 app.use('/personal', route);
+app.use('/show', route);
 app.use('/users',users);
 app.use("/logout",route);
 
