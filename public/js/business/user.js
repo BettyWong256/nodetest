@@ -1,40 +1,50 @@
 var elem = {};
 
-function userMainH(){
+function userMainH() {
     var height = window.innerHeight;
-    $('.user-main').css('min-height',height-180+'px');
+    $('.user-main').css('min-height', height - 180 + 'px');
 };
 
-function getElem(){
+function getElem() {
     elem.look = $('.look');
     elem.delete = $('.delete');
 };
 
-function bindEvent(){
-    elem.look.click(function(){
+function bindEvent() {
+    elem.look.click(function () {
         var clicked = $(this);
         var fileId = clicked.parents('li').find('.fileId').val();
-        alert(fileId);
+        window.open("show?fileId="+fileId);
     });
-    elem.delete.click(function(){
+    elem.delete.click(function () {
         var clicked = $(this);
         var fileId = clicked.parents('li').find('.fileId').val();
         $('.delId').val(fileId);
     });
+    $('.delOk').click(function () {
+        var data = {};
+        data.id = $('.delId').val();
+        data.type = 2;
+        $.ajax({
+            url: '/personal',
+            type: 'post',
+            data: data,
+            success: function (data, status) {
+                location.href = 'personal';
+            },
+            error: function (data, status) {
+                location.href = 'personal';
+            }
+        })
+    });
 
 };
 
-function pageLoad(){
+function pageLoad() {
 };
 
 
-$('.delOk').onclick = function(){
-    alert($('.delId').val());
-};
-
-
-
-$(function(){
+$(function () {
     //获取页面元素
     getElem();
     //绑定事件
@@ -44,6 +54,6 @@ $(function(){
     userMainH();
 })
 
-window.onresize = function(){
+window.onresize = function () {
     userMainH();
 }

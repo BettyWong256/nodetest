@@ -15,6 +15,7 @@
 
 </div>
 <div class="user-main">
+    {{{message}}}
     {{#if status}}
         <p class="f18 fb tc mt200">{{msg}}</p>
     {{else}}
@@ -25,7 +26,7 @@
                 <img src="images/lines.png" alt="" class="w100 h100 fl mr10">
                 <div class="fl h100">
                     <p class="f16 fb"><a href="" class="cl-black">{{file_name}}</a></p>
-                    <p>{{file_time}}</p>
+                    <p>{{date}}</p>
                     <p class="mt20">
                         <button type="button" class="btn btn-success btn-sm mr10 w50 look">查  看</button>
                         <button type="button" class="btn btn-danger btn-sm w50 delete" data-toggle="modal" data-target="#myDelete">删  除</button>
@@ -61,7 +62,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-
 
 
 <script src="js/business/user.js"></script>
