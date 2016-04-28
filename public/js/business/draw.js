@@ -145,6 +145,7 @@ define(function (require, exports) {
         elem.editth = $('.table').find('th');
         elem.edittd = $('.table').find('td');    //数据编辑表格
         elem.change = $('.draw-change');         //运行
+        elem.closeEdit = $('.draw-close');       //关闭
         elem.look = $('.draw-look');             //预览
         elem.save = $('.draw-save');             //保存
         elem.editData = $('.draw-edit-data');    //数据编辑
@@ -182,6 +183,9 @@ define(function (require, exports) {
         elem.change.click(function () {
             tableSave();
             MyGraph.postJson(editId);
+        });
+        //关闭
+        elem.closeEdit.click(function () {
             $('.active').removeClass('active');
             $('.draw-cav').removeClass('cavMove');
             $('.draw-data').hide();
@@ -219,36 +223,36 @@ define(function (require, exports) {
         });
         //添加图表
         elem.line.click(function () {
-            $('.draw-data').hide();
-            $('.draw-cav').removeClass('cavMove');
+            // $('.draw-data').hide();
+            // $('.draw-cav').removeClass('cavMove');
             addGraph();
             MyGraph.init('1', editId);
         });
         elem.lines.click(function () {
-
-            $('.draw-data').hide();
-            $('.draw-cav').removeClass('cavMove');
+            //
+            // $('.draw-data').hide();
+            // $('.draw-cav').removeClass('cavMove');
             addGraph();
             MyGraph.init('2', editId);
         });
         elem.bar.click(function () {
 
-            $('.draw-data').hide();
-            $('.draw-cav').removeClass('cavMove');
+            // $('.draw-data').hide();
+            // $('.draw-cav').removeClass('cavMove');
             addGraph();
             MyGraph.init('3', editId);
         });
         elem.pie.click(function () {
 
-            $('.draw-data').hide();
-            $('.draw-cav').removeClass('cavMove');
+            // $('.draw-data').hide();
+            // $('.draw-cav').removeClass('cavMove');
             addGraph();
             MyGraph.init('4', editId);
         });
         elem.graph.click(function () {
 
-            $('.draw-data').hide();
-            $('.draw-cav').removeClass('cavMove');
+            // $('.draw-data').hide();
+            // $('.draw-cav').removeClass('cavMove');
             addGraph();
             MyGraph.init('5', editId);
         })

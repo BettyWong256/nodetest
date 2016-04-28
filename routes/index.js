@@ -164,7 +164,7 @@ router.route('/personal').get(function (req, res) {
     var personalMeg = '';
     var status = 0;
     var personalArr = [];
-    File.find({user_name: req.session.user.name}, function (err, docs) {
+    File.find({user_name: req.session.user.name}).sort({'file_time':-1}).exec(function(err,docs){
         if (err) {
             status = 1;
             personalMeg = '还没有作品哦~快去绘制你的图表吧！';
