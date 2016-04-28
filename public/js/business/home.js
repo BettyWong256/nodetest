@@ -28,7 +28,7 @@ function send(e) {
 //发送消息
 function sendChat(){
     var oDate = new Date();
-    var user = 'my_id ';
+    var user = $('.username').text()+'　';
     var time = oDate.getFullYear() +'-'+ (oDate.getMonth()+1) +'-'+ oDate.getDate() +'&nbsp;'+ oDate.getHours() +':'+ oDate.getMinutes() +':'+ oDate.getSeconds();
     var value = $('#chat').val();
     if(!value){
