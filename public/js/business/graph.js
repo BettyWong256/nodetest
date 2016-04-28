@@ -441,7 +441,6 @@ define(function (require, exports) {
     };
     //绘制雷达图
     function graphGraph(state, id, param) {
-        console.log(1123123);
         var data = {
             theme: 'default',
             text: '预算 vs 开销（Budget vs spending）',
@@ -477,6 +476,9 @@ define(function (require, exports) {
         var mySeries = [];
         var myIndicator = [];
         for (var i = 0; i < data.yData.length; i++) {
+            for(var s=0;s<data.yData[i].arr.length;s++){
+                data.yData[i].arr[s] = typeof(data.yData[i].arr[s])=='string'?Number(data.yData[i].arr[s]):data.yData[i].arr[s];
+            }
             mySeries.push({
                 name: data.yData[i].name,
                 value: data.yData[i].arr
@@ -683,7 +685,6 @@ define(function (require, exports) {
                     dataPool[i].data.yData.push(par);
                     y++;
                 }
-                console.log(dataPool[i].data);
                 exports.init(dataPool[i].state, dataPool[i].id, dataPool[i].data);
                 break;
             }
