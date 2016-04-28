@@ -1,11 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{title}}</title>
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Examples for creative website header animations using Canvas and JavaScript" />
+    <meta name="keywords" content="header, canvas, animated, creative, inspiration, javascript" />
+    <meta name="author" content="Codrops" />
+
+    <link rel="stylesheet" href="style/business/draw.css">
+    <link rel='stylesheet' href='/style/common/bootstrap.min.css' />
+    <link rel='stylesheet' href='/style/common/style.css' />
+    <link rel='stylesheet' href='/style/business/show.css' />
+    <script src="/js/common/jquery-1.9.1.min.js"></script>
+    <script src="/js/common/bootstrap.min.js"></script>
+    <script src="/js/plugins/sea.js"></script>
+    <script>
+        seajs.use('/js/business/show.js')
+    </script>
+</head>
+<body class="showBody">
+
 <!--隐藏数据模块-->
-{{{message}}}
+    <input type="hidden" value="{{doc}}" id="showData">
+    <div class="btn-group" style="position: fixed;top:50px;right: 50px;">
+        <span class="dropdown-toggle tc"data-toggle="dropdown">
+            <span class="glyphicon glyphicon-cog f30 cl-white"></span>
+        </span>
+        <ul class="dropdown-menu pull-center" role="menu">
+            <li><a href="#" class="normal">NORMAL</a></li>
+            <li><a href="#" class="dark">DARK</a></li>
+            <li><a href="#" class="yellow">SHINE</a></li>
+        </ul>
+    </div>
+    <div class="showContent"></div>
 
 
 
-<script>
-//    seajs.use('/js/business/show.js');
-    var ss = "{{doc}}";
-    console.log(ss);
-</script>
-<link rel="stylesheet" href="style/business/draw.css">
+
+
+
+</body>
+</html>
+
+

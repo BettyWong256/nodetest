@@ -214,13 +214,13 @@ router.route('/show').get( function (req, res, next) {
     else{
         File.findOne({_id: id}, function (err, doc) {
             if (err) {
-                res.send(500);
                 req.session.error = '系统错误，请刷新页面';
+                res.redirect("/personal");
             } else if (!doc) {
                 req.session.error = '未查询到数据，请联系管理员……';
-                res.send(500);
+                res.redirect("/personal");
             } else {
-                res.render("show",{"doc":doc.toString()})
+                res.render("show",{"title":doc.file_name,"doc":JSON.stringify(doc),"layout":false});
             }
         })
     }
