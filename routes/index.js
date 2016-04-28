@@ -117,12 +117,12 @@ router.route("/draw").get(function (req, res) {
     var divData = req.body.divData;
     File.findOne({_id: fileId}, function (err, doc) {
         if (doc) {
-            File.update({                             // 创建一组file对象置入model
-                user_name: userName,
+            File.update({_id: fileId},{                             // 创建一组file对象置入model
+                $set: {user_name: userName,
                 file_name: fileName,
                 file_time: fileTime,
                 graph_data: graphData,
-                div_data: divData
+                div_data: divData}
             }, function (err, obj) {
                 if (err) {
                     console.log(err);
