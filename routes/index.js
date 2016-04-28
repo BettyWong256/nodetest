@@ -3,7 +3,7 @@ var crypto = require('crypto');
 var router = express.Router();
 
 
-function md5 (str) {
+function md5(str) {
     return crypto.createHash('md5').update(str).digest('hex');
 }
 
@@ -47,7 +47,7 @@ router.route('/login').get(function (req, res) {
     User.findOne({name: uname}, function (err, doc) {
         if (err) {
             res.send(500);
-            console.log(err );
+            console.log(err);
         } else if (!doc) {
             req.session.error = '用户名不存在';
             res.send(500);
@@ -117,12 +117,14 @@ router.route("/draw").get(function (req, res) {
     var divData = req.body.divData;
     File.findOne({_id: fileId}, function (err, doc) {
         if (doc) {
-            File.update({_id: fileId},{                             // 创建一组file对象置入model
-                $set: {user_name: userName,
-                file_name: fileName,
-                file_time: fileTime,
-                graph_data: graphData,
-                div_data: divData}
+            File.update({_id: fileId}, {                             // 创建一组file对象置入model
+                $set: {
+                    user_name: userName,
+                    file_name: fileName,
+                    file_time: fileTime,
+                    graph_data: graphData,
+                    div_data: divData
+                }
             }, function (err, obj) {
                 if (err) {
                     console.log(err);
@@ -167,9 +169,9 @@ router.route('/personal').get(function (req, res) {
             status = 1;
             personalMeg = '还没有作品哦~快去绘制你的图表吧！';
         } else {
-            docs.forEach(function(e){
+            docs.forEach(function (e) {
                 var d = e.file_time;
-                e.date = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+" "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+                e.date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate() + " " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
             });
             if (docs.length == 0) {
                 status = 1;
@@ -208,7 +210,7 @@ router.route('/personal').get(function (req, res) {
 
 
 /* GET show page. */
-router.route('/show').get( function (req, res, next) {
+router.route('/show').get(function (req, res, next) {
     if (!req.session.user) {                     //到达/home路径首先判断是否已经登录
         req.session.error = "请先登录"
         res.redirect("/login");                //未登录则重定向到 /login 路径
@@ -216,8 +218,10 @@ router.route('/show').get( function (req, res, next) {
     }
     var id = req.param("fileId");
     var File = global.dbHandel.getModel('file');
-    if(!id){ res.redirect("/personal");}
-    else{
+    if (!id) {
+        res.redirect("/personal");
+    }
+    else {
         File.findOne({_id: id}, function (err, doc) {
             if (err) {
                 req.session.error = '系统错误，请刷新页面';
@@ -226,7 +230,7 @@ router.route('/show').get( function (req, res, next) {
                 req.session.error = '未查询到数据，请联系管理员……';
                 res.redirect("/personal");
             } else {
-                res.render("show",{"title":doc.file_name,"doc":JSON.stringify(doc),"layout":false});
+                res.render("show", {"title": doc.file_name, "doc": JSON.stringify(doc), "layout": false});
             }
         })
     }

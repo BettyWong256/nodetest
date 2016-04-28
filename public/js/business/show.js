@@ -56,6 +56,7 @@ define(function (require, exports) {
     //图表绘制
     function setCav() {
         var cav = data.graph_data;
+        console.log(cav);
         for (var j = 0; j < cav.length; j++) {
             //绘图
             MyGraph.init(cav[j].state, cav[j].id, cav[j].data);
