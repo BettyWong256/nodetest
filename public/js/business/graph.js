@@ -623,9 +623,12 @@ define(function (require, exports) {
 
 
         //x轴
-        for (var i = 0; i < editParam.data.xData.length; i++) {
-            $('#myData').find('tr').eq(0).find('th').eq(i + 1).text(editParam.data.xData[i]);
+        if(editParam.data.xData){
+            for (var i = 0; i < editParam.data.xData.length; i++) {
+                $('#myData').find('tr').eq(0).find('th').eq(i + 1).text(editParam.data.xData[i]);
+            }
         }
+
         //y轴
         for (var j = 0; j < editParam.data.legendData.length; j++) {
             $('#myData').find('tr').eq(j + 1).find('th').text(editParam.data.legendData[j]);
