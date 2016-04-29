@@ -7,6 +7,7 @@ function userMainH() {
 
 function getElem() {
     elem.look = $('.look');
+    elem.edit = $('.edit');
     elem.delete = $('.delete');
 };
 
@@ -15,6 +16,11 @@ function bindEvent() {
         var clicked = $(this);
         var fileId = clicked.parents('li').find('.fileId').val();
         window.open("show?fileId="+fileId);
+    });
+    elem.edit.click(function () {
+        var clicked = $(this);
+        var fileId = clicked.parents('li').find('.fileId').val();
+        window.open("edit?fileId="+fileId);
     });
     elem.delete.click(function () {
         var clicked = $(this);

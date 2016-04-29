@@ -235,4 +235,33 @@ router.route('/show').get(function (req, res, next) {
 });
 
 
+/* GET edit page. */
+router.route('/edit').get(function (req, res, next) {
+    if (!req.session.user) {                     //到达/home路径首先判断是否已经登录
+        req.session.error = "请先登录"
+        res.redirect("/login");                //未登录则重定向到 /login 路径
+        return;
+    }
+    var id = req.param("fileId");
+    var File = global.dbHandel.getModel('file');
+    if (!id) {
+        res.redirect("/personal");
+    }
+    else {
+        File.findOne({_id: id}, function (err, doc) {
+            if (err) {
+                req.session.error = '系统错误，请刷新页面';
+                res.redirect("/personal");
+            } else if (!doc) {
+                req.session.error = '未查询到数据，请联系管理员……';
+                res.redirect("/personal");
+            } else {
+                res.render("draw", {"title": doc.file_name, "doc": JSON.stringify(doc)});
+            }
+        })
+    }
+
+});
+
+
 module.exports = router;

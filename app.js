@@ -68,6 +68,7 @@ app.use('/personal', route);
 app.use('/show', route);
 app.use('/users',users);
 app.use("/logout",route);
+app.use("/edit",route);
 
 
 // catch 404 and forward to error handler

@@ -97,7 +97,7 @@ define(function (require, exports) {
             }
         );
         return arr;
-    }
+    };
 
 //保存-提交数据
     function postData() {
@@ -139,9 +139,47 @@ define(function (require, exports) {
         });
     };
 
+    function forEdit() {
+        if (elem.doc && elem.doc != '') {
+            var json = eval('(' + elem.doc + ')');
+            $('.fileId').val(json._id);
+            $('#file_name').val(json.file_name)
+            graphID = 100;
+            var div = json.div_data;
+            var html = '';
+            for (var i = 0; i < div.length; i++) {
+                if (div[i].state == 'h3') {
+                    html += '<div class="editable mb20" data-id="' + div[i].id + '" data-state="h3"><span class="draw-edit-tab none"><a href="javascript:;" class="mr5 draw-edit"  data-toggle="modal" data-target="#myModal">编辑</a><a href="javascript:;" class="mr5 draw-edit-delete">删除</a></span><h3 class="new-word" id="';
+                    html += div[i].id;
+                    html += '">' + div[i].text + '</h3></div>';
+                } else if (div[i].state == 'p') {
+                    html += '<div class="editable mb20"  data-id="' + div[i].id + '" data-state="p"><span class="draw-edit-tab none"><a href="javascript:;" class="mr5 draw-edit"  data-toggle="modal" data-target="#myModal">编辑</a><a href="javascript:;" class="mr5 draw-edit-delete">删除</a></span><p class="new-word" id="';
+                    html += div[i].id;
+                    html += '">' + div[i].text + '</p></div>';
+                } else {
+                    html += '<div class="editable mb20" data-id="' + div[i].id;
+                    html += '" data-state="graph"><span class="draw-edit-tab none">';
+                    html += '<a href="javascript:;" class="mr5 draw-edit-data">编辑数据</a>';
+                    html += '<a href="javascript:;" class="mr5 draw-edit-set">参数设置</a>';
+                    html += '<a href="javascript:;" class="mr5 draw-edit-delete">删除</a>';
+                    html += '</span><div style="width:740px;height: 300px;" class="new-graph" id="' + div[i].id;
+                    html += '"></div></div>';
+                }
+            }
+            cavObj.append(html);
+            var cav = json.graph_data;
+            for (var j = 0; j < cav.length; j++) {
+                //绘图
+                MyGraph.init(cav[j].state, cav[j].id, cav[j].data);
+                dataPool.push({id: cav[j].id, data: cav[j].data, state: cav[j].state});
+            }
+        }
+    };
+
 
 //获取页面元素
     function getElem() {
+        elem.doc = $('#showData').val();
         elem.editth = $('.table').find('th');
         elem.edittd = $('.table').find('td');    //数据编辑表格
         elem.change = $('.draw-change');         //运行
@@ -174,7 +212,7 @@ define(function (require, exports) {
             if ($('.fileId').val() == '') {
                 $('#file_name').val('');
                 $('#myInfo').modal();
-            }else{
+            } else {
                 postData();
             }
         })
@@ -286,6 +324,8 @@ define(function (require, exports) {
         pageLoad();
         //编辑提示
         newT();
+        //再次编辑方法
+        forEdit();
     });
 
 
