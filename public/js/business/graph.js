@@ -610,8 +610,8 @@ define(function (require, exports) {
         if (editParam.data.minY != 'normal') {
             $('#min-y').val(editParam.data.minY);
         }
-        if (editParam.data.minX != 'normal') {
-            $('#min-x').val(editParam.data.minX);
+        if (editParam.data.maxY != 'normal') {
+            $('#min-x').val(editParam.data.maxY);
         }
         $('#rotate-x').val(editParam.data.rotateX);
         if (editParam.data.smooth=='true') {
