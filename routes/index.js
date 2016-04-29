@@ -1,11 +1,8 @@
 var express = require('express');
-var crypto = require('crypto');
+var scr = require('../lib/crypto.js');
+
 var router = express.Router();
 
-
-function md5(str) {
-    return crypto.createHash('md5').update(str).digest('hex');
-}
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -52,7 +49,7 @@ router.route('/login').get(function (req, res) {
             req.session.error = '用户名不存在';
             res.send(500);
         } else {
-            if (md5(req.body.upwd) != doc.password) {
+            if (scr.md5(req.body.upwd) != doc.password) {
                 req.session.error = '密码错误';
                 res.send(500);
 
@@ -72,7 +69,7 @@ router.route("/signIn").get(function (req, res) {    // 到达此路径则渲染
     //这里的User就是从model中获取user对象，通过global.dbHandel全局方法（这个方法在app.js中已经实现)
     var User = global.dbHandel.getModel('user');
     var uname = req.body.uname;
-    var upwd = md5(req.body.upwd);
+    var upwd = scr.md5(req.body.upwd);
     User.findOne({name: uname}, function (err, doc) {   // 同理 /login 路径的处理方式
         if (err) {
             req.session.error = '网络异常错误！';
