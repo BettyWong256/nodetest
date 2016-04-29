@@ -227,6 +227,7 @@ define(function (require, exports) {
             // $('.draw-cav').removeClass('cavMove');
             addGraph();
             MyGraph.init('1', editId);
+            setEdit();
             MyGraph.getJson(editId);
         });
         elem.lines.click(function () {
@@ -235,6 +236,7 @@ define(function (require, exports) {
             // $('.draw-cav').removeClass('cavMove');
             addGraph();
             MyGraph.init('2', editId);
+            setEdit();
             MyGraph.getJson(editId);
         });
         elem.bar.click(function () {
@@ -243,6 +245,7 @@ define(function (require, exports) {
             // $('.draw-cav').removeClass('cavMove');
             addGraph();
             MyGraph.init('3', editId);
+            setEdit();
             MyGraph.getJson(editId);
         });
         elem.pie.click(function () {
@@ -251,6 +254,7 @@ define(function (require, exports) {
             // $('.draw-cav').removeClass('cavMove');
             addGraph();
             MyGraph.init('4', editId);
+            setEdit();
             MyGraph.getJson(editId);
         });
         elem.graph.click(function () {
@@ -259,6 +263,7 @@ define(function (require, exports) {
             // $('.draw-cav').removeClass('cavMove');
             addGraph();
             MyGraph.init('5', editId);
+            setEdit();
             MyGraph.getJson(editId);
         })
 
