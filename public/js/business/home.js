@@ -4,10 +4,20 @@
 var elem = {};
 var userName,socket;
 
+//普通-〉转义符
+function html2Escape(sHtml) {
+    return sHtml.replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];});
+}
+//转义符-〉普通
+function escape2Html(str) {
+    var arrEntities={'lt':'<','gt':'>','nbsp':' ','amp':'&','quot':'"'};
+    return str.replace(/&(lt|gt|nbsp|amp|quot);/ig,function(all,t){return arrEntities[t];});
+}
+
 //建立连接
 function socketConnect(){
     $('.home-chat').append('<p class="mb20 tc" style="color:#ccc;">与聊天服务器连接已建立</p>');
-    userName = $('.username').text();
+    userName = html2Escape($('.username').text());
     socket=io.connect();
     socket.on('connect',function(){
         socket.on('chat',function(data){
@@ -26,7 +36,7 @@ function myChat(){
     var oDate = new Date();
     var user = userName;
     var time = oDate.getFullYear() +'-'+ (oDate.getMonth()+1) +'-'+ oDate.getDate() +'&nbsp;'+ oDate.getHours() +':'+ oDate.getMinutes() +':'+ oDate.getSeconds();
-    var value = $('#chat').val();
+    var value = html2Escape($('#chat').val());
     socket.emit('chat',{user:user,time:time,msg:value});
 }
 
@@ -79,7 +89,7 @@ function sendChat(data){
         + value + '</span><p class="mt5 f12">'
         + user +'　' + time
         +'</p></span></div>';
-    if(user==$('.username').text()){
+    if(user == html2Escape($('.username').text())){
         $('.home-chat').append(myChat);
     }else{
         $('.home-chat').append(otherChat);

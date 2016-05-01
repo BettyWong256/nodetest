@@ -70,6 +70,7 @@ router.route("/signIn").get(function (req, res) {    // 到达此路径则渲染
     var User = global.dbHandel.getModel('user');
     var uname = req.body.uname;
     var upwd = scr.md5(req.body.upwd);
+    var upcopy =scr.md5(req.body.upcopy);
     User.findOne({name: uname}, function (err, doc) {   // 同理 /login 路径的处理方式
         if (err) {
             req.session.error = '网络异常错误！';
@@ -80,6 +81,11 @@ router.route("/signIn").get(function (req, res) {    // 到达此路径则渲染
             res.send(500);
             console.log(err + '***注册用户名存在***');
         } else {
+            if(upwd!=upcopy){
+                req.session.error = '密码不一致，请重新输入！';
+                res.send(500);
+                return false;
+            }
             User.create({                             // 创建一组user对象置入model
                 name: uname,
                 password: upwd
