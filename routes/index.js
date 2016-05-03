@@ -49,12 +49,25 @@ router.route('/login').get(function (req, res) {
             req.session.error = '用户名不存在';
             res.send(500);
         } else {
-            if (scr.md5(req.body.upwd) != doc.password) {
+            if (scr.md5(req.body.upwd+doc.salt) != doc.password) {
                 req.session.error = '密码错误';
                 res.send(500);
 
             } else {
                 req.session.user = doc;
+                User.update({_id: doc._id},{
+                    $set: {
+                        last_login_time: new Date(),
+                        last_login_ip: req.connection.remoteAddress
+                    }
+                }, function (err, obj) {
+                    if (err) {
+                        console.log(err);
+                        res.send(500);
+                    } else {
+                        res.json({id: doc["_id"]});
+                    }
+                })
                 res.send(200);
             }
         }
@@ -69,8 +82,10 @@ router.route("/signIn").get(function (req, res) {    // 到达此路径则渲染
     //这里的User就是从model中获取user对象，通过global.dbHandel全局方法（这个方法在app.js中已经实现)
     var User = global.dbHandel.getModel('user');
     var uname = req.body.uname;
-    var upwd = scr.md5(req.body.upwd);
-    var upcopy =scr.md5(req.body.upcopy);
+    // var upwd = scr.md5(req.body.upwd);
+    var upwd = req.body.upwd;
+    var upcopy =req.body.upcopy;
+    var salt = Math.floor(Math.random()*10000)
     User.findOne({name: uname}, function (err, doc) {   // 同理 /login 路径的处理方式
         if (err) {
             req.session.error = '网络异常错误！';
@@ -88,7 +103,9 @@ router.route("/signIn").get(function (req, res) {    // 到达此路径则渲染
             }
             User.create({                             // 创建一组user对象置入model
                 name: uname,
-                password: upwd
+                password: scr.md5(upwd+salt),
+                salt:salt,
+                create_time: new Date()
             }, function (err, doc) {
                 if (err) {
                     console.log(err + '***用户名创建失败***');
