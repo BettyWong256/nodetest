@@ -45,14 +45,16 @@ router.route('/login').get(function (req, res) {
         if (err) {
             res.send(500);
             console.log(err);
+            return;
         } else if (!doc) {
             req.session.error = '用户名不存在';
             res.send(500);
+            return;
         } else {
             if (scr.md5(req.body.upwd+doc.salt) != doc.password) {
                 req.session.error = '密码错误';
                 res.send(500);
-
+                return;
             } else {
                 req.session.user = doc;
                 User.update({_id: doc._id},{
@@ -63,9 +65,6 @@ router.route('/login').get(function (req, res) {
                 }, function (err, obj) {
                     if (err) {
                         console.log(err);
-                        res.send(500);
-                    } else {
-                        res.json({id: doc["_id"]});
                     }
                 })
                 res.send(200);
